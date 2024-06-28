@@ -1,6 +1,7 @@
 import { BadRequestException, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
+    ActivationResponse,
     // ActivationResponse,
     // ForgotPasswordResponse,
     // LoginResponse,
@@ -9,6 +10,7 @@ import {
     // ResetPasswordResponse,
 } from './types/user.types';
 import {
+    ActivationDto,
     // ActivationDto,
     // ForgotPasswordDto,
     RegisterDto,
@@ -33,17 +35,17 @@ export class UsersResolver {
             throw new BadRequestException('Please fill the all fields');
         }
 
-        const user = await this.userService.register(registerDto, context.res);
-        return { user };
+        const { activation_token } = await this.userService.register(registerDto, context.res);
+        return { activation_token };
     }
 
-    // @Mutation(() => ActivationResponse)
-    // async activateUser(
-    //     @Args('activationDto') activationDto: ActivationDto,
-    //     @Context() context: { res: Response },
-    // ): Promise<ActivationResponse> {
-    //     return await this.userService.activateUser(activationDto, context.res);
-    // }
+    @Mutation(() => ActivationResponse)
+    async activateUser(
+        @Args('activationDto') activationDto: ActivationDto,
+        @Context() context: { res: Response },
+    ): Promise<ActivationResponse> {
+        return await this.userService.activateUser(activationDto, context.res);
+    }
 
     // @Mutation(() => LoginResponse)
     // async Login(
