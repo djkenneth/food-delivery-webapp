@@ -4,7 +4,7 @@ import {
     ActivationResponse,
     // ActivationResponse,
     // ForgotPasswordResponse,
-    // LoginResponse,
+    LoginResponse,
     // LogoutResposne,
     RegisterResponse,
     // ResetPasswordResponse,
@@ -17,7 +17,7 @@ import {
     // ResetPasswordDto,
 } from './dto/user.dto';
 import { Response } from 'express';
-// import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 
@@ -47,19 +47,19 @@ export class UsersResolver {
         return await this.userService.activateUser(activationDto, context.res);
     }
 
-    // @Mutation(() => LoginResponse)
-    // async Login(
-    //     @Args('email') email: string,
-    //     @Args('password') password: string,
-    // ): Promise<LoginResponse> {
-    //     return await this.userService.Login({ email, password });
-    // }
+    @Mutation(() => LoginResponse)
+    async Login(
+        @Args('email') email: string,
+        @Args('password') password: string,
+    ): Promise<LoginResponse> {
+        return await this.userService.Login({ email, password });
+    }
 
-    // @Query(() => LoginResponse)
-    // @UseGuards(AuthGuard)
-    // async getLoggedInUser(@Context() context: { req: Request }) {
-    //     return await this.userService.getLoggedInUser(context.req);
-    // }
+    @Query(() => LoginResponse)
+    @UseGuards(AuthGuard)
+    async getLoggedInUser(@Context() context: { req: Request }) {
+        return await this.userService.getLoggedInUser(context.req);
+    }
 
     // @Mutation(() => ForgotPasswordResponse)
     // async forgotPassword(
