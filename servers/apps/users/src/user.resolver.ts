@@ -5,7 +5,7 @@ import {
     // ActivationResponse,
     // ForgotPasswordResponse,
     LoginResponse,
-    // LogoutResposne,
+    LogoutResposne,
     RegisterResponse,
     // ResetPasswordResponse,
 } from './types/user.types';
@@ -75,11 +75,11 @@ export class UsersResolver {
     //     return await this.userService.resetPassword(resetPasswordDto);
     // }
 
-    // @Query(() => LogoutResposne)
-    // @UseGuards(AuthGuard)
-    // async logOutUser(@Context() context: { req: Request }) {
-    //     return await this.userService.Logout(context.req);
-    // }
+    @Query(() => LogoutResposne)
+    @UseGuards(AuthGuard)
+    async logOutUser(@Context() context: { req: Request }) {
+        return await this.userService.Logout(context.req);
+    }
 
     @Query(() => [User])
     async getUsers() {
