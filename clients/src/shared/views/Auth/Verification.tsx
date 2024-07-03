@@ -1,5 +1,5 @@
 import styles from "../../../utils/styles";
-// import {ACTIVATE_USER} from "../../../graphql/actions/activation.action";
+import { ACTIVATE_USER } from "../../../graphql/actions/activation.action";
 import { useMutation } from "@apollo/client";
 import { FC, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -17,7 +17,7 @@ type VerifyNumber = {
 };
 
 const Verification: FC<Props> = ({ setActiveState }) => {
-//   const [ActivateUser, { loading }] = useMutation(ACTIVATE_USER);
+  const [ActivateUser, { loading }] = useMutation(ACTIVATE_USER);
   const [invalidError, setInvalidError] = useState(false);
 
   const inputRefs = [
@@ -46,16 +46,16 @@ const Verification: FC<Props> = ({ setActiveState }) => {
         activationToken,
         activationCode: verificationNumber,
       };
-    //   try {
-    //     await ActivateUser({
-    //       variables: data,
-    //     });
-    //     localStorage.removeItem("activation_token");
-    //     toast.success("Account activated successfully!");
-    //     setActiveState("Login");
-    //   } catch (error: any) {
-    //     toast.error(error.message);
-    //   }
+      try {
+        await ActivateUser({
+          variables: data,
+        });
+        localStorage.removeItem("activation_token");
+        toast.success("Account activated successfully!");
+        setActiveState("Login");
+      } catch (error: any) {
+        toast.error(error.message);
+      }
     }
   };
 
@@ -88,9 +88,8 @@ const Verification: FC<Props> = ({ setActiveState }) => {
             type="number"
             key={key}
             ref={inputRefs[index]}
-            className={`w-[65px] h-[65px] bg-transparent border-[3px] rounded-[10px] flex items-center text-white justify-center text-[18px] font-Poppins outline-none text-center ${
-              invalidError ? "shake border-red-500" : "border-white"
-            }`}
+            className={`w-[65px] h-[65px] bg-transparent border-[3px] rounded-[10px] flex items-center text-white justify-center text-[18px] font-Poppins outline-none text-center ${invalidError ? "shake border-red-500" : "border-white"
+              }`}
             placeholder=""
             maxLength={1}
             value={verifyNumber[key as keyof VerifyNumber]}
@@ -103,7 +102,7 @@ const Verification: FC<Props> = ({ setActiveState }) => {
       <div className="w-full flex justify-center">
         <button
           className={`${styles.button}`}
-        //   disabled={loading}
+          disabled={loading}
           onClick={verificationHandler}
         >
           Verify OTP
