@@ -9,7 +9,7 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import toast from "react-hot-toast";
-// import { LOGIN_USER } from "../../../graphql/actions/login.action";
+import { LOGIN_USER } from "../../../graphql/actions/login.action";
 import { useMutation } from "@apollo/client";
 import Cookies from "js-cookie";
 import { signIn } from "next-auth/react"
@@ -28,7 +28,7 @@ const Login = ({
   setActiveState: (e: string) => void;
   setOpen: (e: boolean) => void;
 }) => {
-//   const [Login, { loading }] = useMutation(LOGIN_USER);
+  const [Login, { loading }] = useMutation(LOGIN_USER);
 
   const {
     register,
@@ -41,23 +41,23 @@ const Login = ({
   const [show, setShow] = useState(false);
 
   const onSubmit = async (data: LoginSchema) => {
-    // const loginData = {
-    //   email: data.email,
-    //   password: data.password,
-    // };
-    // const response = await Login({
-    //   variables: loginData,
-    // });
-    // if (response.data.Login.user) {
-    //   toast.success("Login Successful!");
-    //   Cookies.set("refresh_token", response.data.Login.refreshToken);
-    //   Cookies.set("access_token", response.data.Login.accessToken);
-    //   setOpen(false);
-    //   reset();
-    //   window.location.reload();
-    // } else {
-    //   toast.error(response.data.Login.error.message);
-    // }
+    const loginData = {
+      email: data.email,
+      password: data.password,
+    };
+    const response = await Login({
+      variables: loginData,
+    });
+    if (response.data.Login.user) {
+      toast.success("Login Successful!");
+      Cookies.set("refresh_token", response.data.Login.refreshToken);
+      Cookies.set("access_token", response.data.Login.accessToken);
+      setOpen(false);
+      reset();
+      window.location.reload();
+    } else {
+      toast.error(response.data.Login.error.message);
+    }
   };
 
   return (
@@ -113,7 +113,7 @@ const Login = ({
           <input
             type="submit"
             value="Login"
-            // disabled={isSubmitting || loading}
+            disabled={isSubmitting || loading}
             className={`${styles.button} mt-3`}
           />
         </div>
